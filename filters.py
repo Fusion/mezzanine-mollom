@@ -5,14 +5,14 @@ from django.forms import Textarea
 from Mollom import MollomAPI
 from Mollom import MollomFault
 
+
 def is_spam_mollom(request, form, url):
     def logit(msg):
         if settings.DEBUG:
             logger = logging.getLogger(__name__)
             logger.info(msg)
 
-
-    settings.use_editable() # Re-eval setting every time
+    settings.use_editable()  # Re-eval setting every time
     if not settings.MOLLOM_PUBLIC_KEY or not settings.MOLLOM_PRIVATE_KEY:
         return False
     else:
@@ -21,7 +21,7 @@ def is_spam_mollom(request, form, url):
             if isinstance(field.widget, Textarea):
                 comment = form.cleaned_data.get(name)
                 break
-        if comment == None:
+        if comment is None:
             return False
         else:
             if not settings.MOLLOM_DEFAULT_SERVER:
